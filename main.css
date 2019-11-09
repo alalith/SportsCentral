@@ -1,0 +1,35 @@
+.header{
+    font-size: 100px;
+    text-align: center;
+    padding:20px;
+    height:200px;
+  background-position: center; 
+    
+}
+
+header .row{
+  display: flex;
+  background-color:rgb(7, 47, 94);
+  text-align: center;
+  justify-content: center;
+
+}
+
+header .row p{
+    display: block;
+    color: white;
+
+    
+}
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px; /* demo only */
+}
+
+div p {
+    text-align: center;
+}
+

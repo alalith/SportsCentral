@@ -14,5 +14,8 @@
     "url": "https://github.tamu.edu/alalith/csce315project2.git"
   },
   "author": "Arjun Lalith, Sam Stone, Justin Metzinger",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
 }
