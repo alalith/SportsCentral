@@ -16,6 +16,8 @@
   "author": "Arjun Lalith, Sam Stone, Justin Metzinger",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
+    "jsdom": "^15.2.1",
     "request": "^2.88.0"
   }
 }

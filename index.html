@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width, initial-scale=1.0">
@@ -13,7 +12,52 @@
 </head>
 
 <style>
-    /* The container */
+ .results {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto;
+ }
+ .header{
+    font-size: 100px;
+    text-align: center;
+    padding:20px;
+    height:200px;
+  background-position: center; 
+    
+}
+
+.divider {
+	border: 1px solid black;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.result1{
+	display: flex;
+	flex-direction: row;
+	border: 3px solid black;
+}
+
+.time {
+	margin: auto;
+}
+
+header .row{
+  display: flex;
+  background-color:rgb(7, 47, 94);
+  text-align: center;
+  justify-content: center;
+
+}
+
+header .row p{
+    display: block;
+    color: white;
+    width: 100vw;
+
+}
+ul {
+  list-style-type: none;
+}
+   /* The container */
     .container {
       display: block;
       position: relative;
@@ -837,9 +881,8 @@
 
             
 
-        <div class="results">
-            <p> Display results here</p>
-        </div>
+		<div class="results">
+		</div>
         </div>
 
         <!--</div>-->
