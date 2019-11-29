@@ -9,12 +9,34 @@ const app = express();
 app.use("main.css", express.static('./main.css'));
 app.use("/imgs", express.static('./imgs'));
 var main= fs.readFileSync('./index.html');
-var scheduleCard = fs.readFileSync('./card.html');
+var scheduleCard = fs.readFileSync('./mdl_card.html');
 var mainHTML = new JSDOM(main.toString());
+var scores = [];
+var latestWeek;
 
  app.get('/', (req, res) => {
 	console.log("getting data");
 	//res.writeHead(200, { "Content-type": "text/html;charset=UTF-8" });
+		/*
+	request.get('https://feeds.nfl.com/feeds-rs/scores.json'
+	,
+	{ json: { key: 'value' } },
+	function (error, response ,body) {
+		latestWeek = body['week'];
+		for(var i=1;i<=latestWeek;i++) {
+			request.get('https://feeds.nfl.com/feeds-rs/scores.json'
+			,
+			{ json: { key: 'value' } },
+			function (error, response ,body) {
+				latestWeek = body['week'];
+				for(var i=1;i<=latestWeek;i++) {
+						
+				}
+			});
+		}
+	});
+		*/
+	console.log(latestWeek);
 	request.get('https://feeds.nfl.com/feeds-rs/schedules.json'
 	,
 	{ json: { key: 'value' } },
@@ -23,14 +45,14 @@ var mainHTML = new JSDOM(main.toString());
 			var schedules = body['gameSchedules']
 			var results = "";
 			for(var i = 0; i < schedules.length; i++) {
-				results += schedules[i]['homeNickname'] + ' vs. ' + schedules[i]['visitorNickname'] + ' - ' + schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+'ET ' + schedules[i]['gameDate'] +'  @ '+ schedules[i]['site']['siteFullname'] + "\n";	
+				results += schedules[i]['homeNickname'] + ' vs. ' + schedules[i]['visitorNickname'] + ' - ' + schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET ' + schedules[i]['gameDate'] +'  @ '+ schedules[i]['site']['siteFullname'] + "\n";	
 				var scheduleCardHTML = new JSDOM(scheduleCard.toString());
-				scheduleCardHTML.window.document.getElementsByClassName('team1')[0].textContent =schedules[i]['homeNickname'];
-				scheduleCardHTML.window.document.getElementsByClassName('team2')[0].textContent =schedules[i]['visitorNickname'];				
-				scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+'ET <br />'+schedules[i]['gameDate'];
+				scheduleCardHTML.window.document.getElementsByClassName('team1')[0].innerHTML = schedules[i]['homeNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['homeDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';
+				scheduleCardHTML.window.document.getElementsByClassName('team2')[0].innerHTML = schedules[i]['visitorNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['visitorDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';				
+				scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET <br />'+schedules[i]['gameDate'];
 				mainHTML.window.document.getElementsByClassName("results")[0].appendChild(scheduleCardHTML.window.document.documentElement);
 			}
-			console.log(results);
+			//console.log(results);
 			//console.log(scheduleCardHTML.window.document.documentElement.outerHTML);
 			//console.log(scheduleCard);
 			//console.log(body);

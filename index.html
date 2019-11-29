@@ -1,4 +1,4 @@
-<!DOCTYPE html> <html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width, initial-scale=1.0">
@@ -6,9 +6,43 @@
     <title class=name>Sports Central</title>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-indigo.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+	<script>
+		var teamChoices = [];	
+		function runFilter() {
+			console.log(teamChoices);
+			var cards = document.getElementsByClassName('result1');
+			//console.log(document);
+			for(var i = 0; i < cards.length; i++) {
+				//console.log(cards[i].getElementsByClassName('team1')[0].textContent);
+				if(!(teamChoices.includes(cards[i].getElementsByClassName('team1')[0].textContent)) && !(teamChoices.includes(cards[i].getElementsByClassName('team2')[0].textContent))) {
+
+					cards[i].style.display = 'none';
+				}
+				else {
+					cards[i].style.display = 'flex';
+				}
+			} 
+		}	
+		
+		function addTeam(chkTeam) {
+			console.log(chkTeam.parentElement.textContent);		
+			if(chkTeam.checked) {
+				teamChoices.push(chkTeam.parentElement.textContent);
+			}
+			else {
+				teamChoices = teamChoices.filter(item => item !== chkTeam.parentElement.textContent);
+			}
+			runFilter();
+
+		}
+	
+	</script>
 </head>
 
 <style>
@@ -30,14 +64,30 @@
 	margin-left: 10px;
 	margin-right: 10px;
 }
-.result1{
+
+.result1.mdl-card{
+	background-color: #536dfe;
 	display: flex;
 	flex-direction: row;
-	border: 3px solid black;
+	width: 200px;
+	min-height: 100px;
+	
 }
-
+.teams {
+	height: 100px;
+}
 .time {
 	margin: auto;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.teampic {
+	width: 30px;
+	height: 30px;
 }
 
 header .row{
@@ -166,13 +216,13 @@ ul {
     </style>
 
 <body>
-    <header> 
-        <div class="header">Sports Central</div> 
+    <header>
+        <div class="header">Sports Central</div>
             <div class="row">
                 <p>Find out when your favorite teams are playing!</p>
-            </div> 
+            </div>
         </div>
-    </header>  
+    </header>
 
     <div class = "fullpage">
     <div class = "filters">
@@ -234,447 +284,198 @@ ul {
 
 			<div class="nfl-column1">
     
-				<label class="container"> Bears
-					<img src="imgs/nfl/chicago-bears.png" alt="chicago bears logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-					
-				</label>
+				<label class="container">Bears<img src="imgs/nfl/chicago-bears.png" alt="chicago bears logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				<label class="container"> Bengals
-				    <img src="imgs/nfl/cincinnati-bengals.png" alt="cincinnati bengals logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Bengals<img src="imgs/nfl/cincinnati-bengals.png" alt="cincinnati bengals logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			    
-				<label class="container"> Bills
-					<img src="imgs/nfl/buffalo-bills.png" alt="buffalo bills logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Bills<img src="imgs/nfl/buffalo-bills.png" alt="buffalo bills logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			    
-				<label class="container"> Broncos
-				    <img src="imgs/nfl/denver-broncos.png" alt="denver broncos logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Broncos<img src="imgs/nfl/denver-broncos.png" alt="denver broncos logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Browns
-				    <img src="imgs/nfl/cleveland-browns.jpg" alt="cleveland browns logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Browns<img src="imgs/nfl/cleveland-browns.jpg" alt="cleveland browns logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Buccaneers
-				    <img src="imgs/nfl/tampa-bay-buccaneers.png" alt="tampa bay buccaneers logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Buccaneers<img src="imgs/nfl/tampa-bay-buccaneers.png" alt="tampa bay buccaneers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Colts
-				    <img src="imgs/nfl/indianapolis-colts.jpg" alt="indianapolis colts logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Colts<img src="imgs/nfl/indianapolis-colts.jpg" alt="indianapolis colts logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Cardinals
-				    <img src="imgs/nfl/Arizona-Cardinals.jpg" alt="arizona cardinals logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Cardinals<img src="imgs/nfl/Arizona-Cardinals.jpg" alt="arizona cardinals logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Chargers
-				    <img src="imgs/nfl/los-angeles-chargers.png" alt="los angeles chargers logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Chargers<img src="imgs/nfl/los-angeles-chargers.png" alt="los angeles chargers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Chiefs
-				    <img src="imgs/nfl/kansas-city-chiefs.jpg" alt="kansas city chiefs logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Chiefs<img src="imgs/nfl/kansas-city-chiefs.jpg" alt="kansas city chiefs logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Cowboys
-				    <img src="imgs/nfl/dallas-cowboys.png" alt="dallas cowboys logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Cowboys<img src="imgs/nfl/dallas-cowboys.png" alt="dallas cowboys logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Dolphins
-				    <img src="imgs/nfl/miami-dolphins.png" alt="miami dolphins logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Dolphins<img src="imgs/nfl/miami-dolphins.png" alt="miami dolphins logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Eagles
-				    <img src="imgs/nfl/philadelphia-eagles.png" alt="philadelphia eagles logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Eagles<img src="imgs/nfl/philadelphia-eagles.png" alt="philadelphia eagles logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Falcons
-				    <img src="imgs/nfl/atlanta-falcons.png" alt="atlanta falcons logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Falcons<img src="imgs/nfl/atlanta-falcons.png" alt="atlanta falcons logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Giants
-				    <img src="imgs/nfl/new-york-giants.png" alt="new york giants logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Giants<img src="imgs/nfl/new-york-giants.png" alt="new york giants logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				<label class="container"> Jaguars
-				    <img src="imgs/nfl/jacksonville-jaguars.jpg" alt="jacksonville jaguars logo" width="30px" height="30px">
-				    <input type="checkbox">
-				    <span class="checkmark"></span>
-				</label>
+				<label class="container">Jaguars<img src="imgs/nfl/jacksonville-jaguars.jpg" alt="jacksonville jaguars logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
 			    </div>
 
 				<div class = "nfl-column2">
 					
 						
-				    <label class="container"> Jets
-					<img src="imgs/nfl/new-york-jets.png" alt="new york jets logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Jets<img src="imgs/nfl/new-york-jets.png" alt="new york jets logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Lions
-					<img src="imgs/nfl/detroit-lions.png" alt="detroit lions logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Lions<img src="imgs/nfl/detroit-lions.png" alt="detroit lions logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Packers
-					<img src="imgs/nfl/green-bay-packers.png" alt="green bay packers logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Packers<img src="imgs/nfl/green-bay-packers.png" alt="green bay packers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Panthers
-					<img src="imgs/nfl/carolina-panthers.png" alt="carolina panthers logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Panthers<img src="imgs/nfl/carolina-panthers.png" alt="carolina panthers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				    <label class="container"> Patriots
-					<img src="imgs/nfl/new-england-patriots.png" alt="new england patriots logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Patriots<img src="imgs/nfl/new-england-patriots.png" alt="new england patriots logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
-				    <label class="container"> Raiders
-					<img src="imgs/nfl/oakland-raiders.png" alt="oakland raiders logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label> 
+				    <label class="container">Raiders<img src="imgs/nfl/oakland-raiders.png" alt="oakland raiders logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
-				    <label class="container"> Rams
-					<img src="imgs/nfl/los-angeles-rams.png" alt="los angeles rams logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Rams<img src="imgs/nfl/los-angeles-rams.png" alt="los angeles rams logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
-				    <label class="container"> Ravens
-					<img src="imgs/nfl/baltimore-ravens.png" alt="baltimore ravens logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Ravens<img src="imgs/nfl/baltimore-ravens.png" alt="baltimore ravens logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				    <label class="container"> Redskins
-					<img src="imgs/nfl/washington-redskins.png" alt="washington redskins logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Redskins<img src="imgs/nfl/washington-redskins.png" alt="washington redskins logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
-				    <label class="container"> Saints
-					<img src="imgs/nfl/new-orleans-saints.png" alt="new orleans saints logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Saints<img src="imgs/nfl/new-orleans-saints.png" alt="new orleans saints logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
-				    <label class="container"> Seahawks
-					<img src="imgs/nfl/seattle-seahawks.png" alt="seattle seahawks logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Seahawks<img src="imgs/nfl/seattle-seahawks.png" alt="seattle seahawks logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
-				    <label class="container"> Steelers
-					<img src="imgs/nfl/pittsburgh-steelers.png" alt="pittsburgh steelers logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Steelers<img src="imgs/nfl/pittsburgh-steelers.png" alt="pittsburgh steelers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				    <label class="container"> Texans
-					<img src="imgs/nfl/houston-texans.png" alt="houston texans logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Texans<img src="imgs/nfl/houston-texans.png" alt="houston texans logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					    
-				    <label class="container"> Titans
-					    <img src="imgs/nfl/tennessee-titans.jpg" alt="tennessee titans logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
+				    <label class="container">Titans<img src="imgs/nfl/tennessee-titans.jpg" alt="tennessee titans logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 						
-				    <label class="container"> Vikings
-					<img src="imgs/nfl/minnesota-vikings.png" alt="minnesota vikings logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
-						
-				    <label class="container"> 49ers
-					<img src="imgs/nfl/san-francisco-49ers.png" alt="san francisco 49ers logo" width="30px" height="30px">
-					<input type="checkbox">
-					<span class="checkmark"></span>
-				    </label>
-			
+					    <label class="container">Vikings<img src="imgs/nfl/minnesota-vikings.png" alt="minnesota vikings logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+							
+					    <label class="container">49ers<img src="imgs/nfl/san-francisco-49ers.png" alt="san francisco 49ers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</body>
+	</body>
 
-<!-- End of Dropdown 1 -->
+	<!-- End of Dropdown 1 -->
 
-<!-- Start of Dropdown 2 -->
-<head>
-	<style>
-		.dropbtn {
-		  background-color: #4CAF50;
-		  color: white;
-		  padding: 16px;
-		  font-size: 16px;
-		  border: none;
-		  cursor: pointer;
-		}
+	<!-- Start of Dropdown 2 -->
+	<head>
+		<style>
+			.dropbtn {
+			  background-color: #4CAF50;
+			  color: white;
+			  padding: 16px;
+			  font-size: 16px;
+			  border: none;
+			  cursor: pointer;
+			}
 
-		.dropdown {
-		  position: relative;
-		  display: inline-block;
-		}
+			.dropdown {
+			  position: relative;
+			  display: inline-block;
+			}
 
-		.dropdown-content {
-		  display: none;
-		  position: absolute;
-		  background-color: #f9f9f9;
-		  min-width: 160px;
-		  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-		  z-index: 1;
-		}
+			.dropdown-content {
+			  display: none;
+			  position: absolute;
+			  background-color: #f9f9f9;
+			  min-width: 160px;
+			  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			  z-index: 1;
+			}
 
-		.dropdown-content a {
-		  color: black;
-		  padding: 12px 16px;
-		  text-decoration: none;
-		  display: block;
-		}
+			.dropdown-content a {
+			  color: black;
+			  padding: 12px 16px;
+			  text-decoration: none;
+			  display: block;
+			}
 
-		.dropdown-content a:hover {background-color: #f1f1f1}
+			.dropdown-content a:hover {background-color: #f1f1f1}
 
-		.dropdown:hover .dropdown-content {
-		  display: block;
-		}
+			.dropdown:hover .dropdown-content {
+			  display: block;
+			}
 
-		.dropdown:hover .dropbtn {
-		  background-color: #3e8e41;
-		}
-	</style>
-</head>
+			.dropdown:hover .dropbtn {
+			  background-color: #3e8e41;
+			}
+		</style>
+	</head>
 
-<body>
-	<div class="dropdown">
-  		<button class="dropbtn">NBA</button>
-  		<div class="dropdown-content">
-			<div class = nba-filter>
-                		<div class="nba-column1">
-                
-				    <label class="container"> Bucks
-				        <img src="imgs/nba/milwaukee-bucks.png" alt="milwaukee bucks logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
-				    
-				    <label class="container"> Bulls
-				        <img src="imgs/nba/chicago-bulls.png" alt="chicago bulls logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+	<body>
+		<div class="dropdown">
+			<button class="dropbtn">NBA</button>
+			<div class="dropdown-content">
+				<div class = nba-filter>
+					<div class="nba-column1">
+			
+					    <label class="container">Bucks<img src="imgs/nba/milwaukee-bucks.png" alt="milwaukee bucks logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+					    
+					    <label class="container">Bulls<img src="imgs/nba/chicago-bulls.png" alt="chicago bulls logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+					
+					    <label class="container">Cavaliers<img src="imgs/nba/cleveland-cavaliers.jpg" alt="cleveland cavaliers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+					
+					    <label class="container">Celtics<img src="imgs/nba/boston-celtics.png" alt="boston celtics logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Cavaliers
-				        <img src="imgs/nba/cleveland-cavaliers.jpg" alt="cleveland cavaliers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+					    <label class="container">Clippers<img src="imgs/nba/los-angeles-clippers.png" alt="los angeles clippers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Celtics
-				        <img src="imgs/nba/boston-celtics.png" alt="boston celtics logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+					    <label class="container">Grizzlies<img src="imgs/nba/memphis-grizzlies.png" alt="memphis grizzlies logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				
+					    <label class="container">Hawks<img src="imgs/nba/atlanta-hawks.png" alt="atlanta hawks logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+
+				    <label class="container">Heat<img src="imgs/nba/miami-heat.png" alt="miami heat logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+
+				    <label class="container">Hornets<img src="imgs/nba/charlotte-hornets.png" alt="charlotte hornets logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Clippers
-				        <img src="imgs/nba/los-angeles-clippers.png" alt="los angeles clippers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Jazz<img src="imgs/nba/utah-jazz.png" alt="utah jazz logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Grizzlies
-				        <img src="imgs/nba/memphis-grizzlies.png" alt="memphis grizzlies logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Kings<img src="imgs/nba/sacramento-kings.png" alt="sacramento kings logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Hawks
-				        <img src="imgs/nba/atlanta-hawks.png" alt="atlanta hawks logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Knicks<img src="imgs/nba/new-york-knicks.png" alt=" new york knicks logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Heat
-				        <img src="imgs/nba/miami-heat.png" alt="miami heat logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Lakers<img src="imgs/nba/los-angeles-lakers.png" alt="los angeles lakers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Hornets
-				        <img src="imgs/nba/charlotte-hornets.png" alt="charlotte hornets logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Magic<img src="imgs/nba/orlando-magic.png" alt="orlando magic logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Jazz
-				        <img src="imgs/nba/utah-jazz.png" alt="utah jazz logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
-			
-				    <label class="container"> Kings
-				        <img src="imgs/nba/sacramento-kings.png" alt="sacramento kings logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
-			
-				    <label class="container"> Knicks
-				        <img src="imgs/nba/new-york-knicks.png" alt=" new york knicks logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
-			
-				    <label class="container"> Lakers
-				        <img src="imgs/nba/los-angeles-lakers.png" alt="los angeles lakers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
-			
-				    <label class="container"> Magic
-				        <img src="imgs/nba/orlando-magic.png" alt="orlando magic logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
-			
-				    <label class="container"> Mavericks
-				        <img src="imgs/nba/dallas-mavericks.png" alt="dallas mavericks logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Mavericks<img src="imgs/nba/dallas-mavericks.png" alt="dallas mavericks logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				        
 				</div>
 
 				<div class="nba-column2">
 				
-				    <label class="container"> Nets
-				        <img src="imgs/nba/brooklyn-nets.png" alt="brooklyn nets logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Nets<img src="imgs/nba/brooklyn-nets.png" alt="brooklyn nets logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
-				    <label class="container"> Nuggets
-				        <img src="imgs/nba/denver-nuggets.png" alt="denver nuggets logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Nuggets<img src="imgs/nba/denver-nuggets.png" alt="denver nuggets logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Pacers
-				        <img src="imgs/nba/indiana-pacers.png" alt="indiana pacers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Pacers<img src="imgs/nba/indiana-pacers.png" alt="indiana pacers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Pelicans
-				        <img src="imgs/nba/new-orleans-pelicans.png" alt="new orleans pelicans logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Pelicans<img src="imgs/nba/new-orleans-pelicans.png" alt="new orleans pelicans logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Pistons
-				        <img src="imgs/nba/detroit-pistons.png" alt="detroit pistons logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Pistons<img src="imgs/nba/detroit-pistons.png" alt="detroit pistons logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Raptors
-				        <img src="imgs/nba/raptors.png" alt="toronto raptors logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Raptors<img src="imgs/nba/raptors.png" alt="toronto raptors logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Rockets
-				        <img src="imgs/nba/houston-rockets.png" alt="houston rockets logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Rockets<img src="imgs/nba/houston-rockets.png" alt="houston rockets logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Spurs
-				        <img src="imgs/nba/san-antonio-spurs.png" alt="san antonio spurs logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Spurs<img src="imgs/nba/san-antonio-spurs.png" alt="san antonio spurs logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Suns
-				        <img src="imgs/nba/phoenix-suns.png" alt="phoenix suns logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Suns<img src="imgs/nba/phoenix-suns.png" alt="phoenix suns logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Thunder
-				        <img src="imgs/nba/oklahoma-city-thunder.png" alt="oklahoma city thunder logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Thunder<img src="imgs/nba/oklahoma-city-thunder.png" alt="oklahoma city thunder logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Timberwolves
-				        <img src="imgs/nba/minnesota-timberwolves.png" alt="minnesota timberwolves logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Timberwolves<img src="imgs/nba/minnesota-timberwolves.png" alt="minnesota timberwolves logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Trail Blazers
-				        <img src="imgs/nba/portland-trail-blazers.png" alt="portland trail blazers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Trail Blazers<img src="imgs/nba/portland-trail-blazers.png" alt="portland trail blazers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Warriors
-				        <img src="imgs/nba/golden-state-warriors.png" alt="golden state warriors logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Warriors<img src="imgs/nba/golden-state-warriors.png" alt="golden state warriors logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Wizards
-				        <img src="imgs/nba/washington-wizards.png" alt="washington wizards logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Wizards<img src="imgs/nba/washington-wizards.png" alt="washington wizards logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> 76ers
-				        <img src="imgs/nba/philadelphia-76ers.png" alt="philadelphia 76ers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">76ers<img src="imgs/nba/philadelphia-76ers.png" alt="philadelphia 76ers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				        
 				</div>
 			</div>
@@ -736,128 +537,48 @@ ul {
 			<div class="epl-filter">
 				<div class="epl-column1">
 			    
-				    <label class="container"> Arsenal
-				        <img src="imgs/epl/Arsenal.jpg" alt="arsenal logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Arsenal<img src="imgs/epl/Arsenal.jpg" alt="arsenal logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
-				    <label class="container"> Aston Villa
-				        <img src="imgs/epl/aston-villa.jpg" alt="aston villa logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Aston Villa<img src="imgs/epl/aston-villa.jpg" alt="aston villa logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Bournemouth
-				        <img src="imgs/epl/bournemouth.jpg" alt="bournemouth logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Bournemouth<img src="imgs/epl/bournemouth.jpg" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Brighton
-				        <img src="imgs/epl/brighton-and-hove.png" alt="brighton and hove albion logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Brighton<img src="imgs/epl/brighton-and-hove.png" alt="brighton and hove albion logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Burnley
-				        <img src="imgs/epl/burnley.jpg" alt="burnley logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Burnley<img src="imgs/epl/burnley.jpg" alt="burnley logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Chelsea
-				        <img src="imgs/epl/chelsea.png" alt="chelsea logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Chelsea<img src="imgs/epl/chelsea.png" alt="chelsea logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Crystal Palace
-				        <img src="imgs/epl/crystal-palace.jpg" alt="crystal palace logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Crystal Palace<img src="imgs/epl/crystal-palace.jpg" alt="crystal palace logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Everton
-				        <img src="imgs/epl/everton.jpg" alt="everton logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Everton<img src="imgs/epl/everton.jpg" alt="everton logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Leicester City
-				        <img src="imgs/epl/leicester-city.png" alt="leicester city logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Leicester City<img src="imgs/epl/leicester-city.png" alt="leicester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Liverpool
-				        <img src="imgs/epl/liverpool.png" alt="liverpool logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Liverpool<img src="imgs/epl/liverpool.png" alt="liverpool logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
 				</div>
 
 				<div class="epl-column2">
-				    <label class="container"> Man City
-				        <img src="imgs/epl/manchester-city.png" alt="manchester city logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Man City<img src="imgs/epl/manchester-city.png" alt="manchester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				    <label class="container"> Man United
-				        <img src="imgs/epl/manchester-united.png" alt="manchester united logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Man United<img src="imgs/epl/manchester-united.png" alt="manchester united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Newcastle
-				        <img src="imgs/epl/bournemouth.jpg" alt="bournemouth logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Newcastle<img src="imgs/epl/bournemouth.jpg" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container"> Norwich City
-				        <img src="imgs/epl/newcastle-united.png" alt="newcastle united logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Norwich City<img src="imgs/epl/newcastle-united.png" alt="newcastle united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Sheff Utd
-				        <img src="imgs/epl/sheffield-united.png" alt="sheffield united logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Sheff Utd<img src="imgs/epl/sheffield-united.png" alt="sheffield united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Southampton
-				        <img src="imgs/epl/southampton.png" alt="southampton logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Southampton<img src="imgs/epl/southampton.png" alt="southampton logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Tottenham
-				        <img src="imgs/epl/tottenham-hotspur.png" alt="tottenham hotspur logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Tottenham<img src="imgs/epl/tottenham-hotspur.png" alt="tottenham hotspur logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Watford
-				        <img src="imgs/epl/watford.jpg" alt="watford logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Watford<img src="imgs/epl/watford.jpg" alt="watford logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> West Ham
-				        <img src="imgs/epl/west-ham-united.png" alt="west ham united logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">West Ham<img src="imgs/epl/west-ham-united.png" alt="west ham united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container"> Wolves
-				        <img src="imgs/epl/wolverhampton-wanderers.png" alt="wolverhampton wanderers logo" width="30px" height="30px">
-				        <input type="checkbox">
-				        <span class="checkmark"></span>
-				    </label>
+				    <label class="container">Wolves<img src="imgs/epl/wolverhampton-wanderers.png" alt="wolverhampton wanderers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
 				</div>
 			</div>
@@ -897,7 +618,7 @@ ul {
             <select>
                 <option>Choose a league</option>
                 <option>NFL</option>
-                <option>NBA</option>  
+                <option>NBA</option>
                 <option>EPL</option>
             </select>
         </span>
@@ -939,7 +660,7 @@ ul {
                 <option>Washington Redskins</option>
             </select>
         </span>
-   </div> -->
+   </div>-->
    
    
     
