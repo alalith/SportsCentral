@@ -24,9 +24,41 @@
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
 }
-.teampic {
+.team1Pic {
 	width: 30px;
 	height: 30px;
+}
+
+.team2Pic {
+	width: 30px;
+	height: 30px;
+}
+
+.team1.mdl-card__supporting-text {
+	display: flex;
+	flex-direction: flex-row;
+}
+
+.team2.mdl-card__supporting-text {
+	display: flex;
+	flex-direction: flex-row;
+}
+
+.team1Name {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.team1Score {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.team2Name {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.team2Score {
+	margin-top: auto;
+	margin-bottom: auto;
 }
 </style>
 <head>
@@ -37,8 +69,8 @@
 -->
 <div class="result1 mdl-card mdl-shadow--4dp">
 	<div class = "teams">
-		<div class="team1 mdl-card__supporting-text mdl-card--border">Team 1<img class="teampic" src="./imgs/nfl/nfl-logo.png"/></div>
-		<div class="team2 mdl-card__supporting-text">Team 2<img class="teampic" src="./imgs/nfl/nfl-logo.png"/></div>
+		<div class="team1 mdl-card__supporting-text mdl-card--border"><div class="team1Name">Team 1</div><img class="team1Pic" src="./imgs/nfl/nfl-logo.png"/><div class="team1Score"></div></div>
+		<div class="team2 mdl-card__supporting-text"><div class="team2Name">Team 2</div><img class="team2Pic" src="./imgs/nfl/nfl-logo.png"/><div class="team2Score"></div></div>
 	</div>
 	<div class="time mdl-card__title">
 		12:00PM

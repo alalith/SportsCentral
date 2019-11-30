@@ -32,7 +32,7 @@
 				var month = parseInt(gameDate.substring(0,gameDate.indexOf('/')))-1;
 				var day = gameDate.substring(gameDate.indexOf('/')+1,gameDate.lastIndexOf('/'));
 				var d = new Date(year, month, day, 0, 0, 0, 0);
-				if(!(teamChoices.includes(cards[i].getElementsByClassName('team1')[0].textContent)) && !(teamChoices.includes(cards[i].getElementsByClassName('team2')[0].textContent))) {
+				if((teamChoices.length != 0) && (!(teamChoices.includes(cards[i].getElementsByClassName('team1Name')[0].textContent)) && !(teamChoices.includes(cards[i].getElementsByClassName('team2Name')[0].textContent)))) {
 						cards[i].style.display = 'none';
 				}
 				else {
@@ -47,6 +47,18 @@
 				}
 			} 
 		}	
+		function prevWeek() {
+			beginOfSelectedWeek.setDate(beginOfSelectedWeek.getDate() - 7);
+			endOfSelectedWeek.setDate(endOfSelectedWeek.getDate() - 7);
+			runFilter();
+		}
+		
+		function nextWeek() {
+			beginOfSelectedWeek.setDate(beginOfSelectedWeek.getDate() + 7);
+			endOfSelectedWeek.setDate(endOfSelectedWeek.getDate() + 7);
+			runFilter();
+		
+		}
 		
 		function addTeam(chkTeam) {
 			console.log(chkTeam.parentElement.textContent);		
@@ -121,9 +133,44 @@
 	transform: translateY(-50%);
 }
 
-.teampic {
+.team1Pic {
 	width: 20px;
 	height: 20px;
+}
+
+.team2Pic {
+	width: 20px;
+	height: 20px;
+}
+
+.team1.mdl-card__supporting-text {
+	display: flex;
+	flex-direction: flex-row;
+}
+
+.team2.mdl-card__supporting-text {
+	display: flex;
+	flex-direction: flex-row;
+}
+
+.team1Name {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.team1Score {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.team2Name {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.team2Score {
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
 header .row{
@@ -633,7 +680,7 @@ ul {
 
 		<div class="calendar">
 			<div class="calendarHeader">
-				<button class="next_prevButton mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary"><</button>
+				<button class="next_prevButton mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" onclick="prevWeek()"><</button>
 				<div class="day Sunday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Sunday</div>
@@ -669,7 +716,7 @@ ul {
 						<div class="dayText mdl-card__title mdl-card--border">Saturday</div>
 					</div>
 				</div>
-				<button class="next_prevButton mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">></button>
+				<button class="next_prevButton mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" onclick="nextWeek()">></button>
 			</div>
 			<div class="results">
 			</div>
