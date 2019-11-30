@@ -13,7 +13,52 @@ var scheduleCard = fs.readFileSync('./mdl_card.html');
 var mainHTML = new JSDOM(main.toString());
 var scores = [];
 var gameSchedule = [];
+var NBATeams = [];
 var latestWeek;
+	async function generateNBATeams() {
+		await request.get('http://data.nba.net/data/10s/prod/v1/2019/teams.json', {json: true})
+		.then((body) => {
+				var NBATeamData = body['league']['standard'];
+				for(var i = 0; i < NBATeamData.length; i++) {
+					if(NBATeamData[i]['isNBAFranchise']) {
+						NBATeams[NBATeamData[i]['teamId']] = {
+							teamName:  NBATeamData[i]['nickname'],
+							teamPic: './imgs/nba/'+NBATeamData[i]['fullName'].toLowerCase().replace(/ /g,'-')+'.png'
+							};
+					}
+				}	
+			});
+	}
+	async function generateNBAData() {
+		await request.get('http://data.nba.net/data/10s/prod/v1/2019/schedule.json', {json: true})
+		.then( (body) => {
+			var NBAScheduleData = body['league']['standard'];	
+			for(var i = 0; i < NBAScheduleData.length; i++) {
+				if(NBATeams[NBAScheduleData[i]['hTeam']['teamId']]==null ||NBATeams[NBAScheduleData[i]['vTeam']['teamId']]  == null) {
+					continue;
+				}
+				var dateIndex = NBAScheduleData[i]['startDateEastern'];	
+				var year = dateIndex.substring(0,4);
+				var month = dateIndex.substring(4,6);
+				var date = dateIndex.substring(6,8);
+				if(gameSchedule[dateIndex] == null ) {
+					gameSchedule[dateIndex] = [];
+				}
+				gameSchedule[dateIndex].push({	
+					team1Name: NBATeams[NBAScheduleData[i]['hTeam']['teamId']]['teamName'],
+					team1Pic: NBATeams[NBAScheduleData[i]['hTeam']['teamId']]['teamPic'],
+					team1Score: NBAScheduleData[i]['hTeam']['score'],
+					team2Name: NBATeams[NBAScheduleData[i]['vTeam']['teamId']]['teamName'],	
+					team2Pic: NBATeams[NBAScheduleData[i]['vTeam']['teamId']]['teamPic'],
+					team2Score: NBAScheduleData[i]['vTeam']['score'],
+					time: NBAScheduleData[i]['startTimeEastern'],
+					date: month+'/'+date+'/'+year, 
+					gameId: NBAScheduleData[i]['gameId'],
+					sport: 'nba'
+				});
+			}
+			});
+	}
 	function generateCards() {
 			var beginOfCurrentWeek = new Date();
 			beginOfCurrentWeek.setDate(beginOfCurrentWeek.getDate()-beginOfCurrentWeek.getDay());
@@ -41,6 +86,9 @@ var latestWeek;
 					scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = gameSchedule[i][j]['time']+ '<br />'+gameSchedule[i][j]['date'];
 					scheduleCardHTML.window.document.getElementsByClassName('team1Pic')[0].src = gameSchedule[i][j]['team1Pic'];
 					scheduleCardHTML.window.document.getElementsByClassName('team2Pic')[0].src = gameSchedule[i][j]['team2Pic'];
+					if( gameSchedule[i][j]['sport']=='nba') {
+						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#F44336';	
+					}
 					if(d < beginOfCurrentWeek || d > endOfCurrentWeek) {
 						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.display = 'none';
 					} 
@@ -117,7 +165,8 @@ var latestWeek;
 				team2Score: null,
 				time: schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET',
 				date: schedules[i]['gameDate'],
-				gameId: schedules[i]['gameId']
+				gameId: schedules[i]['gameId'],
+				sport: 'nfl'
 			});
 			//scheduleCardHTML.window.document.getElementsByClassName('team1')[0].innerHTML = schedules[i]['homeNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['homeDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';
 			//scheduleCardHTML.window.document.getElementsByClassName('team2')[0].innerHTML = schedules[i]['visitorNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['visitorDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';				
@@ -164,7 +213,11 @@ const server = app.listen(process.env.PORT || 3000, () => {
 	request.get('https://feeds.nfl.com/feeds-rs/schedules.json', {json: true})
 	.then(generateNFLschedule, console.log)
 	.then(addNFLScoreData)
-	.then( () => { console.log(gameSchedule) } )
+	//.then( () => { console.log(gameSchedule) })
+	.then(generateNBATeams)
+	.then( () => { console.log(NBATeams) })
+	.then(generateNBAData)
+	.then( () => { console.log(gameSchedule) })
 	.then(generateCards)
 	.then( () => {
 		console.log("done!");
