@@ -1,6 +1,6 @@
 const express = require('express');
 var http = require('http');
-var request = require('request');
+var request = require('request-promise');
 var path = require('path');
 var fs = require('fs');
 const jsdom = require('jsdom');
@@ -12,8 +12,127 @@ var main= fs.readFileSync('./index.html');
 var scheduleCard = fs.readFileSync('./mdl_card.html');
 var mainHTML = new JSDOM(main.toString());
 var scores = [];
+var gameSchedule = [];
 var latestWeek;
+	function generateCards() {
+			var beginOfCurrentWeek = new Date();
+			beginOfCurrentWeek.setDate(beginOfCurrentWeek.getDate()-beginOfCurrentWeek.getDay());
+			beginOfCurrentWeek.setHours(0,0,0,0);
+			var endOfCurrentWeek = new Date();
+			endOfCurrentWeek.setDate(endOfCurrentWeek.getDate()+6-endOfCurrentWeek.getDay());
+			endOfCurrentWeek.setHours(0,0,0,0);
+			for(var i = 0; i < gameSchedule.length; i++) {
+				if(gameSchedule[i] == null) {
+					continue;
+				}
+				for(var j = 0; j < gameSchedule[i].length; j++) {
+					var year = gameSchedule[i][j]['date'].substring(gameSchedule[i][j]['date'].lastIndexOf('/')+1)
+					//console.log(year);
+					var month = parseInt(gameSchedule[i][j]['date'].substring(0,gameSchedule[i][j]['date'].indexOf('/')))-1;
+					var day = gameSchedule[i][j]['date'].substring(gameSchedule[i][j]['date'].indexOf('/')+1,gameSchedule[i][j]['date'].lastIndexOf('/'));
+					var d = new Date(year, month, day, 0, 0, 0, 0);
+					var scheduleCardHTML = new JSDOM(scheduleCard.toString());
+					if(gameSchedule[i][j]['team1Score'] == null && gameSchedule[i][j]['team2Score'] == null) {
+						scheduleCardHTML.window.document.getElementsByClassName('team1')[0].innerHTML = gameSchedule[i][j]['team1Name']+'<img class="teampic" src="'+gameSchedule[i][j]['team1Pic']+'"/>';
+						scheduleCardHTML.window.document.getElementsByClassName('team2')[0].innerHTML = gameSchedule[i][j]['team2Name']+'<img class="teampic" src="'+gameSchedule[i][j]['team2Pic']+'"/>';				
+					}
+					else {
+						scheduleCardHTML.window.document.getElementsByClassName('team1')[0].innerHTML = gameSchedule[i][j]['team1Name']+'<img class="teampic" src="'+gameSchedule[i][j]['team1Pic']+'"/>'+gameSchedule[i][j]['team1Score'];
+						scheduleCardHTML.window.document.getElementsByClassName('team2')[0].innerHTML = gameSchedule[i][j]['team2Name']+'<img class="teampic" src="'+gameSchedule[i][j]['team2Pic']+'"/>'+gameSchedule[i][j]['team2Score'];				
 
+					}
+					scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = gameSchedule[i][j]['time']+ '<br />'+gameSchedule[i][j]['date'];
+					if(d < beginOfCurrentWeek || d > endOfCurrentWeek) {
+						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.display = 'none';
+					} 
+					/*
+					else {
+						console.log(d.getFullYear() + ' ' +d.getMonth() + ' ' + d.getDate());
+					}
+					*/
+					mainHTML.window.document.getElementsByClassName('day')[d.getDay()].appendChild(scheduleCardHTML.window.document.documentElement);
+				}
+			}	
+
+
+	}
+	function processNFLScoreWeek(body) {
+		var gameScoresCurrentWeek = body['gameScores'];
+		for(var j = 0; j < gameScoresCurrentWeek.length; j++) {
+			var gameIndex = gameScoresCurrentWeek[j]['gameSchedule']['gameId'];
+			//console.log(gameIndex);
+			//console.log(gameSchedule[dateIndex]);
+			var dateIndex = gameIndex.toString().substring(0,gameIndex.toString().length-2);
+			if(gameScoresCurrentWeek[j]['score'] == null) {
+				for(var k = 0; k < gameSchedule[dateIndex].length; k++) {
+					if(gameSchedule[dateIndex][k]['gameId'] == gameIndex) {
+						gameSchedule[dateIndex][k].team1Score = null;
+						gameSchedule[dateIndex][k].team2Score = null;
+						break;
+					}
+				}	
+				continue;
+
+			}
+			for(var k = 0; k < gameSchedule[dateIndex].length; k++) {
+				if(gameSchedule[dateIndex][k]['gameId'] == gameIndex) {
+					gameSchedule[dateIndex][k].team1Score = gameScoresCurrentWeek[j]['score']['homeTeamScore']['pointTotal'];
+					gameSchedule[dateIndex][k].team2Score = gameScoresCurrentWeek[j]['score']['visitorTeamScore']['pointTotal'];
+					break;
+				}
+			}	
+			//console.log(dateIndex);
+		}
+
+	}
+	async function addNFLScoreData(){
+		await request('https://feeds.nfl.com/feeds-rs/scores.json', {json: true})
+		    .then(async (parsedBody) => {
+			var maxWeek = parsedBody['week'];
+			processNFLScoreWeek(parsedBody);
+			for(var i = 1; i < maxWeek; i++) {
+				await request('https://feeds.nfl.com/feeds-rs/scores/2019/REG/'+i+'.json',{json: true}).then(processNFLScoreWeek, console.log);
+			}
+		    });//.then(() => { console.log(gameSchedule) });
+	}
+	function generateNFLschedule(body) {
+		var schedules = body['gameSchedules']
+		var results = "";
+		var j = 0;
+		for(var i = 0; i < schedules.length; i++) {
+			var date = schedules[i]['gameDate'];
+			var dateIndex = date.substring(date.lastIndexOf('/')+1)+date.substring(0,date.indexOf('/'))+date.substring(date.indexOf('/')+1,date.lastIndexOf('/'));
+			gameSchedule[dateIndex]= [];
+		}
+		for(var i = 0; i < schedules.length; i++) {
+			results += schedules[i]['homeNickname'] + ' vs. ' + schedules[i]['visitorNickname'] + ' - ' + schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET ' + schedules[i]['gameDate'] +'  @ '+ schedules[i]['site']['siteFullname'] + "\n";	
+			//var scheduleCardHTML = new JSDOM(scheduleCard.toString());
+			var date = schedules[i]['gameDate'];
+			var dateIndex = date.substring(date.lastIndexOf('/')+1)+date.substring(0,date.indexOf('/'))+date.substring(date.indexOf('/')+1,date.lastIndexOf('/'));
+			gameSchedule[dateIndex].push({	
+				team1Name: schedules[i]['homeNickname'],
+				team1Pic: './imgs/nfl/'+schedules[i]['homeDisplayName'].toLowerCase().replace(/ /g,'-')+'.png',
+				team1Score: null,
+				team2Name: schedules[i]['visitorNickname'],	
+				team2Pic: './imgs/nfl/'+schedules[i]['visitorDisplayName'].toLowerCase().replace(/ /g,'-')+'.png',
+				team2Score: null,
+				time: schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET',
+				date: schedules[i]['gameDate'],
+				gameId: schedules[i]['gameId']
+			});
+			//scheduleCardHTML.window.document.getElementsByClassName('team1')[0].innerHTML = schedules[i]['homeNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['homeDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';
+			//scheduleCardHTML.window.document.getElementsByClassName('team2')[0].innerHTML = schedules[i]['visitorNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['visitorDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';				
+			//scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET <br />'+schedules[i]['gameDate'];
+			//mainHTML.window.document.getElementsByClassName("day")[(j++ % 7)].appendChild(scheduleCardHTML.window.document.documentElement);
+		}
+
+		//console.log(gameSchedule);
+		//console.log(results);
+		//console.log(scheduleCardHTML.window.document.documentElement.outerHTML);
+		//console.log(scheduleCard);
+		//console.log(body);
+		//res.end(JSON.stringify(schedules));
+	}
  app.get('/', (req, res) => {
 	console.log("getting data");
 	//res.writeHead(200, { "Content-type": "text/html;charset=UTF-8" });
@@ -36,31 +155,17 @@ var latestWeek;
 		}
 	});
 		*/
-	console.log(latestWeek);
-	request.get('https://feeds.nfl.com/feeds-rs/schedules.json'
-	,
-	{ json: { key: 'value' } },
-	function (error, response ,body) {
-		if (!error && response.statusCode == 200) {
-			var schedules = body['gameSchedules']
-			var results = "";
-			for(var i = 0; i < schedules.length; i++) {
-				results += schedules[i]['homeNickname'] + ' vs. ' + schedules[i]['visitorNickname'] + ' - ' + schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET ' + schedules[i]['gameDate'] +'  @ '+ schedules[i]['site']['siteFullname'] + "\n";	
-				var scheduleCardHTML = new JSDOM(scheduleCard.toString());
-				scheduleCardHTML.window.document.getElementsByClassName('team1')[0].innerHTML = schedules[i]['homeNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['homeDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';
-				scheduleCardHTML.window.document.getElementsByClassName('team2')[0].innerHTML = schedules[i]['visitorNickname']+'<img class="teampic" src="./imgs/nfl/'+schedules[i]['visitorDisplayName'].toLowerCase().replace(/ /g,'-')+'.png"/>';				
-				scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET <br />'+schedules[i]['gameDate'];
-				mainHTML.window.document.getElementsByClassName("results")[0].appendChild(scheduleCardHTML.window.document.documentElement);
-			}
-			//console.log(results);
-			//console.log(scheduleCardHTML.window.document.documentElement.outerHTML);
-			//console.log(scheduleCard);
-			//console.log(body);
-			//res.end(JSON.stringify(schedules));
-			res.end(mainHTML.serialize());
-		}
-	});
+	//console.log(latestWeek);
+	request.get('https://feeds.nfl.com/feeds-rs/schedules.json', {json: true})
+	.then(generateNFLschedule, console.log)
+	.then(addNFLScoreData)
+	.then( () => { console.log(gameSchedule) } )
+	.then(generateCards)
+	.then( () => {
+		res.end(mainHTML.serialize());
+	});			
 });
+	
 
 const server = app.listen(process.env.PORT || 3000, () => {
 	console.log('Server is running at 3000');
