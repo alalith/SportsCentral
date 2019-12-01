@@ -26,7 +26,7 @@
 			//console.log(document);
 			for(var i = 0; i < cards.length; i++) {
 				var gameDate = cards[i].getElementsByClassName('time')[0].textContent;
-				gameDate = gameDate.substring(gameDate.indexOf('T')+1);
+				gameDate = gameDate.substring(gameDate.length-10);
 				//console.log(cards[i].getElementsByClassName('team1')[0].textContent);
 				var year = gameDate.substring(gameDate.lastIndexOf('/')+1)
 				var month = parseInt(gameDate.substring(0,gameDate.indexOf('/')))-1;
@@ -36,8 +36,8 @@
 						cards[i].style.display = 'none';
 				}
 				else {
-					console.log(d);
-					console.log(beginOfSelectedWeek);
+					//console.log(d);
+					//console.log(beginOfSelectedWeek);
 					if(d < beginOfSelectedWeek || d > endOfSelectedWeek) {
 						cards[i].style.display = 'none';
 					}
@@ -605,6 +605,7 @@ ul {
 
 		.dropdown:hover .dropdown-content {
 		  display: block;
+		  z-index: 999;
 		}
 
 		.dropdown:hover .dropbtn {
@@ -620,48 +621,48 @@ ul {
 			<div class="epl-filter">
 				<div class="epl-column1">
 			    
-				    <label class="container">Arsenal<img src="imgs/epl/Arsenal.jpg" alt="arsenal logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Arsenal<img src="imgs/epl/arsenal.png" alt="arsenal logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
-				    <label class="container">Aston Villa<img src="imgs/epl/aston-villa.jpg" alt="aston villa logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Aston Villa<img src="imgs/epl/aston-villa.png" alt="aston villa logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container">Bournemouth<img src="imgs/epl/bournemouth.jpg" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">AFC Bournemouth<img src="imgs/epl/afc-bournemouth.png" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container">Brighton<img src="imgs/epl/brighton-and-hove.png" alt="brighton and hove albion logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Brighton<img src="imgs/epl/brighton.png" alt="brighton and hove albion logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Burnley<img src="imgs/epl/burnley.jpg" alt="burnley logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Burnley<img src="imgs/epl/burnley.png" alt="burnley logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
 				    <label class="container">Chelsea<img src="imgs/epl/chelsea.png" alt="chelsea logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Crystal Palace<img src="imgs/epl/crystal-palace.jpg" alt="crystal palace logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Crystal Palace<img src="imgs/epl/crystal-palace.png" alt="crystal palace logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Everton<img src="imgs/epl/everton.jpg" alt="everton logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Everton<img src="imgs/epl/everton.png" alt="everton logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Leicester City<img src="imgs/epl/leicester-city.png" alt="leicester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Leicester City<img src="imgs/epl/leicester.png" alt="leicester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
 				    <label class="container">Liverpool<img src="imgs/epl/liverpool.png" alt="liverpool logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
 				</div>
 
 				<div class="epl-column2">
-				    <label class="container">Man City<img src="imgs/epl/manchester-city.png" alt="manchester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Man City<img src="imgs/epl/man-city.png" alt="manchester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
-				    <label class="container">Man United<img src="imgs/epl/manchester-united.png" alt="manchester united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Man Utd<img src="imgs/epl/man-utd.png" alt="manchester united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container">Newcastle<img src="imgs/epl/bournemouth.jpg" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Newcastle<img src="imgs/epl/newcastle.png" alt="newcastle logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				
-				    <label class="container">Norwich City<img src="imgs/epl/newcastle-united.png" alt="newcastle united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Norwich City<img src="imgs/epl/norwich.png" alt="norwich city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Sheff Utd<img src="imgs/epl/sheffield-united.png" alt="sheffield united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Sheffield Utd<img src="imgs/epl/sheffield-utd.png" alt="sheffield united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
 				    <label class="container">Southampton<img src="imgs/epl/southampton.png" alt="southampton logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Tottenham<img src="imgs/epl/tottenham-hotspur.png" alt="tottenham hotspur logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Spurs<img src="imgs/epl/spurs.png" alt="spurs logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Watford<img src="imgs/epl/watford.jpg" alt="watford logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Watford<img src="imgs/epl/watford.png" alt="watford logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">West Ham<img src="imgs/epl/west-ham-united.png" alt="west ham united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">West Ham<img src="imgs/epl/west-ham.png" alt="west ham united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 			
-				    <label class="container">Wolves<img src="imgs/epl/wolverhampton-wanderers.png" alt="wolverhampton wanderers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+				    <label class="container">Wolves<img src="imgs/epl/wolves.png" alt="wolverhampton wanderers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 				    
 				</div>
 			</div>

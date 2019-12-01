@@ -15,6 +15,55 @@ var scores = [];
 var gameSchedule = [];
 var NBATeams = [];
 var latestWeek;
+	async function generateEPLData() {
+		for(var i = 4291; i <= 4327; i++) {
+		//console.log(i);
+		await request.get('http://footballapi.pulselive.com/football/fixtures?gameweeks='+i, {json: true})
+		.then((body) => {
+			var EPLData = body['content']
+			for(var j = 0; j < EPLData.length; j++) {
+				var matchDate = new Date(EPLData[j]['kickoff']['millis']);	
+				var date = matchDate.getDate();
+				var month = matchDate.getMonth()+1;
+				if(date.toString().length==1) {
+					date = '0'+date;
+				}
+				if(month.toString().length==1) {
+					month = '0'+month;
+				}		
+				var dateIndex = matchDate.getFullYear()+month+date;
+				if(gameSchedule[dateIndex]==null) {
+					gameSchedule[dateIndex]=[];
+				}
+				var score1,score2;
+				if(EPLData[j]['teams'][0]['score'] == null || EPLData[j]['teams'][1]['score'] == null) {
+					score1 = "";
+					score2 = "";	
+				}
+				else {
+					score1 = EPLData[j]['teams'][0]['score']; 
+					score2 = EPLData[j]['teams'][1]['score']; 
+
+				}
+				gameSchedule[dateIndex].push({	
+					team1Name: EPLData[j]['teams'][0]['team']['shortName'],
+					team1Pic: './imgs/epl/'+EPLData[j]['teams'][0]['team']['shortName'].toLowerCase().replace(/ /g,'-')+'.png',
+					team1Score: score1,
+					team2Name: EPLData[j]['teams'][1]['team']['shortName'],	
+					team2Pic: './imgs/epl/'+EPLData[j]['teams'][1]['team']['shortName'].toLowerCase().replace(/ /g,'-')+'.png',
+					team2Score: score2,
+					time: matchDate.toLocaleTimeString(),
+					date: month+'/'+date+'/'+matchDate.getFullYear(), 
+					gameId: EPLData[j]['id'],
+					sport: 'epl'
+				});
+
+
+			}
+		});
+		}
+
+	}
 	async function generateNBATeams() {
 		await request.get('http://data.nba.net/data/10s/prod/v1/2019/teams.json', {json: true})
 		.then((body) => {
@@ -77,10 +126,10 @@ var latestWeek;
 					var day = gameSchedule[i][j]['date'].substring(gameSchedule[i][j]['date'].indexOf('/')+1,gameSchedule[i][j]['date'].lastIndexOf('/'));
 					var d = new Date(year, month, day, 0, 0, 0, 0);
 					var scheduleCardHTML = new JSDOM(scheduleCard.toString());
-					if( gameSchedule[i][j]['team1Score'] != null || gameSchedule[i][j]['team2Score'] != null) {
-						scheduleCardHTML.window.document.getElementsByClassName('team1Score')[0].textContent = gameSchedule[i][j]['team1Score'];
-						scheduleCardHTML.window.document.getElementsByClassName('team2Score')[0].textContent = gameSchedule[i][j]['team2Score'];				
-					}
+					//if( gameSchedule[i][j]['team1Score'] != null || gameSchedule[i][j]['team2Score'] != null) {
+					scheduleCardHTML.window.document.getElementsByClassName('team1Score')[0].textContent = gameSchedule[i][j]['team1Score'];
+					scheduleCardHTML.window.document.getElementsByClassName('team2Score')[0].textContent = gameSchedule[i][j]['team2Score'];				
+					//}
 					scheduleCardHTML.window.document.getElementsByClassName('team1Name')[0].textContent = gameSchedule[i][j]['team1Name'];
 					scheduleCardHTML.window.document.getElementsByClassName('team2Name')[0].textContent = gameSchedule[i][j]['team2Name'];				
 					scheduleCardHTML.window.document.getElementsByClassName('time')[0].innerHTML = gameSchedule[i][j]['time']+ '<br />'+gameSchedule[i][j]['date'];
@@ -88,6 +137,9 @@ var latestWeek;
 					scheduleCardHTML.window.document.getElementsByClassName('team2Pic')[0].src = gameSchedule[i][j]['team2Pic'];
 					if( gameSchedule[i][j]['sport']=='nba') {
 						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#F44336';	
+					}
+					else if(gameSchedule[i][j]['sport']=='epl') {
+						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#FFC107';	
 					}
 					if(d < beginOfCurrentWeek || d > endOfCurrentWeek) {
 						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.display = 'none';
@@ -113,8 +165,8 @@ var latestWeek;
 			if(gameScoresCurrentWeek[j]['score'] == null) {
 				for(var k = 0; k < gameSchedule[dateIndex].length; k++) {
 					if(gameSchedule[dateIndex][k]['gameId'] == gameIndex) {
-						gameSchedule[dateIndex][k].team1Score = null;
-						gameSchedule[dateIndex][k].team2Score = null;
+						gameSchedule[dateIndex][k].team1Score = "";
+						gameSchedule[dateIndex][k].team2Score = "";
 						break;
 					}
 				}	
@@ -159,10 +211,10 @@ var latestWeek;
 			gameSchedule[dateIndex].push({	
 				team1Name: schedules[i]['homeNickname'],
 				team1Pic: './imgs/nfl/'+schedules[i]['homeDisplayName'].toLowerCase().replace(/ /g,'-')+'.png',
-				team1Score: null,
+				team1Score: '',
 				team2Name: schedules[i]['visitorNickname'],	
 				team2Pic: './imgs/nfl/'+schedules[i]['visitorDisplayName'].toLowerCase().replace(/ /g,'-')+'.png',
-				team2Score: null,
+				team2Score: '',
 				time: schedules[i]['gameTimeEastern'].substring(0,schedules[i]['gameTimeEastern'].length-3)+' ET',
 				date: schedules[i]['gameDate'],
 				gameId: schedules[i]['gameId'],
@@ -213,11 +265,12 @@ const server = app.listen(process.env.PORT || 3000, () => {
 	request.get('https://feeds.nfl.com/feeds-rs/schedules.json', {json: true})
 	.then(generateNFLschedule, console.log)
 	.then(addNFLScoreData)
-	.then( () => { console.log(gameSchedule) })
+	//.then( () => { console.log(gameSchedule) })
 	.then(generateNBATeams)
-	.then( () => { console.log(NBATeams) })
+	//.then( () => { console.log(NBATeams) })
 	.then(generateNBAData)
-	.then( () => { console.log(gameSchedule) })
+	//.then( () => { console.log(gameSchedule) })
+	.then(generateEPLData)
 	.then(generateCards)
 	.then( () => {
 		console.log("done!");
