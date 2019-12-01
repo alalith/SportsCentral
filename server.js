@@ -215,9 +215,9 @@ const server = app.listen(process.env.PORT || 3000, () => {
 	.then(addNFLScoreData)
 	//.then( () => { console.log(gameSchedule) })
 	.then(generateNBATeams)
-	.then( () => { console.log(NBATeams) })
+	//.then( () => { console.log(NBATeams) })
 	.then(generateNBAData)
-	.then( () => { console.log(gameSchedule) })
+	//.then( () => { console.log(gameSchedule) })
 	.then(generateCards)
 	.then( () => {
 		console.log("done!");
