@@ -20,6 +20,14 @@
 		var endOfSelectedWeek = new Date();
 		endOfSelectedWeek.setDate(endOfSelectedWeek.getDate()+6 - endOfSelectedWeek.getDay());
 		endOfSelectedWeek.setHours(0,0,0,0);
+		function updateDateHeader() {
+			var iWeek = new Date(beginOfSelectedWeek.getTime());
+			var calendarHeaders = document.getElementsByClassName('dayDate');
+			for(var i = 0; i < 7; i++) {
+				iWeek.setDate(beginOfSelectedWeek.getDate() + i);
+				calendarHeaders[i].textContent = parseInt(iWeek.getMonth()+1) + '/' + iWeek.getDate();
+			}
+		}
 		function runFilter() {
 			console.log(teamChoices);
 			var cards = document.getElementsByClassName('result1');
@@ -51,12 +59,14 @@
 			beginOfSelectedWeek.setDate(beginOfSelectedWeek.getDate() - 7);
 			endOfSelectedWeek.setDate(endOfSelectedWeek.getDate() - 7);
 			runFilter();
+			updateDateHeader();
 		}
 		
 		function nextWeek() {
 			beginOfSelectedWeek.setDate(beginOfSelectedWeek.getDate() + 7);
 			endOfSelectedWeek.setDate(endOfSelectedWeek.getDate() + 7);
 			runFilter();
+			updateDateHeader();
 		
 		}
 		
@@ -101,7 +111,9 @@
  .header{
     font-size: 100px;
     padding:20px;
-    height:200px;
+    height:100px;
+    text-align: center;	
+    justify-content: center;
   background-position: center; 
     
 }
@@ -113,7 +125,7 @@
 	margin-right: auto;
  }
 .day {
-	min-width: 225px;
+	min-width: 12.12%;
 }
 
 .divider {
@@ -126,7 +138,7 @@
 	background-color: #536dfe;
 	display: flex;
 	flex-direction: row;
-	width: 225px;
+	width: 100%;
 	min-height: 100px;
 	
 }
@@ -140,6 +152,9 @@
 	top: 50%;
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
+}
+.time.mdl-card__title {
+	font-size: 0.75em;
 }
 
 .team1Pic {
@@ -178,7 +193,7 @@
 	top: 50%;
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
-	right: 0;
+	right: 16px;
 }
 
 .team2Name {
@@ -195,7 +210,7 @@
 	top: 50%;
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
-	right: 0;
+	right: 16px;
 }
 
 header .row{
@@ -323,48 +338,80 @@ ul {
 	flex-direction: row;
     }
 	.dropbtn {
-	  background-color: #4CAF50;
-	  color: white;
-	  padding: 16px;
-	  font-size: 16px;
-	  border: none;
-	  cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+	}
+	.clearButton {
+		background-color: #4CAF50;
+		color: white;
+		padding-left: 16px;
+		padding-right: 16px;
+		font-size: 16px;
+		border: none;
+		cursor: pointer;
+	}
+	.dropbtn.dropbtnNFL {
+	background-color: #536dfe;
+	}
+	.dropbtn.dropbtnNBA {
+	background-color: #F44336;
+	}
+	.dropbtn.dropbtnEPL {
+	background-color: #FFC107;
 	}
 
 	.dropdown {
-	  position: relative;
-	  display: inline-block;
+	position: relative;
+	display: inline-block;
 	}
 
 	.dropdown-content {
-	  display: none;
-	  position: absolute;
-	  background-color: #f9f9f9;
-	  min-width: 160px;
-	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	  z-index: 99;
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 99;
+	}
+	.name {
+		text-align: center;
 	}
 
 	.dropdown-content a {
-	  color: black;
-	  padding: 12px 16px;
-	  text-decoration: none;
-	  display: block;
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
 	}
 
 	.dropdown-content a:hover {background-color: #f1f1f1}
 
 	.dropdown:hover .dropdown-content {
-	  display: block;
+	display: block;
 	}
 
 	.dropdown:hover .dropbtn {
-	  background-color: #3e8e41;
+	background-color: #3e8e41;
+	}
+	.dayDate.mdl-card__title {
+	width:100%;
+	text-align: center;
+	justify-content: center;
+	}
+
+	.dayText {
+	width:100%;
+	text-align: center;
+	justify-content: center;
 	}
 
     </style>
 
-<body>
+<body onload="updateDateHeader()">
     <header>
         <div class="header">Sports Central</div>
             <div class="row">
@@ -374,7 +421,7 @@ ul {
 			
 			<!-- Start of Dropdown 1 -->
 			<div class="dropdown">
-			<button class="dropbtn">NFL</button>
+			<button class="dropbtn dropbtnNFL">NFL</button>
 			<div class="dropdown-content">
 				<div class="nfl-filter">
 
@@ -413,6 +460,7 @@ ul {
 						<label class="container">Giants<img src="imgs/nfl/new-york-giants.png" alt="new york giants logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
 						<label class="container">Jaguars<img src="imgs/nfl/jacksonville-jaguars.png" alt="jacksonville jaguars logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						 <label class="container">All<input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 						    
 					    </div>
 
@@ -450,6 +498,7 @@ ul {
 							    <label class="container">Vikings<img src="imgs/nfl/minnesota-vikings.png" alt="minnesota vikings logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 									
 							    <label class="container">49ers<img src="imgs/nfl/san-francisco-49ers.png" alt="san francisco 49ers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <button class="clearButton">Clear</button>
 						
 							</div>
 						</div>
@@ -460,7 +509,7 @@ ul {
 
 			<!-- Start of Dropdown 2 -->
 				<div class="dropdown">
-					<button class="dropbtn">NBA</button>
+					<button class="dropbtn dropbtnNBA">NBA</button>
 					<div class="dropdown-content">
 						<div class = nba-filter>
 							<div class="nba-column1">
@@ -494,6 +543,7 @@ ul {
 						    <label class="container">Magic<img src="imgs/nba/orlando-magic.png" alt="orlando magic logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">Mavericks<img src="imgs/nba/dallas-mavericks.png" alt="dallas mavericks logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <label class="container">All<input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 							
 						</div>
 
@@ -528,6 +578,7 @@ ul {
 						    <label class="container">Wizards<img src="imgs/nba/washington-wizards.png" alt="washington wizards logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">76ers<img src="imgs/nba/philadelphia-76ers.png" alt="philadelphia 76ers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <button class="clearButton">Clear</button>
 							
 						</div>
 					</div>
@@ -538,7 +589,7 @@ ul {
 
 		<!-- Start of Dropdown 3 -->
 			<div class="dropdown">
-			<button class="dropbtn">EPL</button>
+			<button class="dropbtn dropbtnEPL">EPL</button>
 				<div class="dropdown-content">
 					<div class="epl-filter">
 						<div class="epl-column1">
@@ -562,6 +613,7 @@ ul {
 						    <label class="container">Leicester City<img src="imgs/epl/leicester.png" alt="leicester city logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">Liverpool<img src="imgs/epl/liverpool.png" alt="liverpool logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <label class="container">All<input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 
 						</div>
 
@@ -585,6 +637,7 @@ ul {
 						    <label class="container">West Ham<img src="imgs/epl/west-ham.png" alt="west ham united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">Wolves<img src="imgs/epl/wolves.png" alt="wolverhampton wanderers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <button class="clearButton">Clear</button>
 						    
 						</div>
 					</div>
@@ -612,36 +665,43 @@ ul {
 				<div class="day Sunday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Sunday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<div class = "day Monday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Monday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<div class = "day Tuesday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Tuesday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<div class = "day Wednesday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Wednesday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<div class = "day Thursday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Thursday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<div class = "day Friday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Friday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<div class = "day Saturday">
 					<div class="dayHeader mdl-card">
 						<div class="dayText mdl-card__title mdl-card--border">Saturday</div>
+						<div class="dayDate mdl-card__title"></div>
 					</div>
 				</div>
 				<button class="prevButton mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" onclick="nextWeek()">></button>
