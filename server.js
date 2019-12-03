@@ -139,7 +139,7 @@ var latestWeek;
 					scheduleCardHTML.window.document.getElementsByClassName('team1Pic')[0].src = gameSchedule[i][j]['team1Pic'];
 					scheduleCardHTML.window.document.getElementsByClassName('team2Pic')[0].src = gameSchedule[i][j]['team2Pic'];
 					if( gameSchedule[i][j]['sport']=='nba') {
-						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#F44336';	
+						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#c40000';	
 					}
 					else if(gameSchedule[i][j]['sport']=='epl') {
 						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#FFC107';	
