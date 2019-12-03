@@ -45,12 +45,26 @@ var latestWeek;
 					score2 = EPLData[j]['teams'][1]['score']; 
 
 				}
+				var nameTeam1 = EPLData[j]['teams'][0]['team']['shortName'];
+				var nameTeam2 = EPLData[j]['teams'][1]['team']['shortName']
+				if(nameTeam1 == 'AFC Bournemouth') {
+					nameTeam1 = 'Bournemouth';
+				}	
+				else if(nameTeam1 == 'Spurs') {
+					nameTeam1 = 'Hotspur';
+				}
+				if(nameTeam2 == 'AFC Bournemouth') {
+					nameTeam2 = 'Bournemouth';
+				}	
+				else if(nameTeam2 == 'Spurs') {
+					nameTeam2 = 'Hotspur';
+				}
 				var matchTime = matchDate.toLocaleTimeString();
 				gameSchedule[dateIndex].push({	
-					team1Name: EPLData[j]['teams'][0]['team']['shortName'],
+					team1Name: nameTeam1,
 					team1Pic: './imgs/epl/'+EPLData[j]['teams'][0]['team']['shortName'].toLowerCase().replace(/ /g,'-')+'.png',
 					team1Score: score1,
-					team2Name: EPLData[j]['teams'][1]['team']['shortName'],	
+					team2Name: nameTeam2,	
 					team2Pic: './imgs/epl/'+EPLData[j]['teams'][1]['team']['shortName'].toLowerCase().replace(/ /g,'-')+'.png',
 					team2Score: score2,
 					time: matchTime.substring(0,matchTime.lastIndexOf(':'))+matchTime.substring(matchTime.lastIndexOf(' ')),
@@ -139,10 +153,10 @@ var latestWeek;
 					scheduleCardHTML.window.document.getElementsByClassName('team1Pic')[0].src = gameSchedule[i][j]['team1Pic'];
 					scheduleCardHTML.window.document.getElementsByClassName('team2Pic')[0].src = gameSchedule[i][j]['team2Pic'];
 					if( gameSchedule[i][j]['sport']=='nba') {
-						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#c40000';	
+						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#6ab3c4';	
 					}
 					else if(gameSchedule[i][j]['sport']=='epl') {
-						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#FFC107';	
+						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.backgroundColor='#efc538';	
 					}
 					if(d < beginOfCurrentWeek || d > endOfCurrentWeek) {
 						scheduleCardHTML.window.document.getElementsByClassName('result1')[0].style.display = 'none';

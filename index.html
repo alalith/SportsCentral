@@ -68,14 +68,44 @@
 			updateDateHeader();
 		
 		}
+		function clearSport(sportButton) {
+			var checkboxes = sportButton.parentElement.parentElement.getElementsByTagName('INPUT');
+			for(var i = 0; i < checkboxes.length; i++) {
+				checkboxes[i].checked = false;
+				teamChoices = teamChoices.filter(item => item !== checkboxes[i].parentElement.textContent);
+
+			}
+			runFilter();
+		}
 		
 		function addTeam(chkTeam) {
 			console.log(chkTeam.parentElement.textContent);		
-			if(chkTeam.checked) {
-				teamChoices.push(chkTeam.parentElement.textContent);
+			if(chkTeam.parentElement.textContent == "All") {
+				var checkboxes = chkTeam.parentElement.parentElement.parentElement.getElementsByTagName('INPUT');	
+				if(chkTeam.checked) {
+					for(var i = 0; i < checkboxes.length; i++) {
+						checkboxes[i].checked = true;
+						if(!(teamChoices.includes(checkboxes[i].parentElement.textContent))) {
+							teamChoices.push(checkboxes[i].parentElement.textContent);
+						}
+							
+					}
+				}
+				else {
+					for(var i = 0; i < checkboxes.length; i++) {
+						checkboxes[i].checked = false;
+						teamChoices = teamChoices.filter(item => item !== checkboxes[i].parentElement.textContent);
+
+					}
+				}
 			}
 			else {
-				teamChoices = teamChoices.filter(item => item !== chkTeam.parentElement.textContent);
+				if(chkTeam.checked) {
+					teamChoices.push(chkTeam.parentElement.textContent);
+				}
+				else {
+					teamChoices = teamChoices.filter(item => item !== chkTeam.parentElement.textContent);
+				}
 			}
 			runFilter();
 
@@ -109,7 +139,7 @@
  }
  .header{
     font-size: 5em;
-    margin: 2%;
+    margin: 4%;
     text-align: center;	
     justify-content: center;
     
@@ -126,7 +156,7 @@
 }
 
 .result1.mdl-card{
-	background-color: #536dfe;
+	background-color: #ec664d;
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -140,7 +170,7 @@
 	margin: auto;
 	position: absolute;
 	right: 0;
-	color: white;
+	color: black;
 	top: 50%;
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
@@ -174,13 +204,13 @@
 .team1Name {
 	margin-top: auto;
 	margin-bottom: auto;
-	color: #ffffff;
+	color: black;
 }
 
 .team1Score {
 	margin-top: auto;
 	margin-bottom: auto;
-	color: #ffffff;
+	color: black;
 	position: absolute;
 	top: 50%;
 	-ms-transform: translateY(-50%);
@@ -191,13 +221,13 @@
 .team2Name {
 	margin-top: auto;
 	margin-bottom: auto;
-	color: #ffffff;
+	color: black;
 }
 
 .team2Score {
 	margin-top: auto;
 	margin-bottom: auto;
-	color: #ffffff;
+	color: black;
 	position: absolute;
 	top: 50%;
 	-ms-transform: translateY(-50%);
@@ -338,13 +368,13 @@ header .row{
 		cursor: pointer;
 	}
 	.dropbtn.dropbtnNFL {
-	background-color: #536dfe;
+	background-color: #ec664d;
 	}
 	.dropbtn.dropbtnNBA {
-	background-color: #F44336;
+	background-color: #6ab3c4;
 	}
 	.dropbtn.dropbtnEPL {
-	background-color: #FFC107;
+	background-color: #efc538;
 	}
 
 	.dropdown {
@@ -378,7 +408,7 @@ header .row{
 	}
 
 	.dropdown:hover .dropbtn {
-	background-color: #3e8e41;
+	background-color: #748074;
 	}
 	.dayDate.mdl-card__title {
 	width:100%;
@@ -481,7 +511,7 @@ header .row{
 							    <label class="container">Vikings<img src="imgs/nfl/minnesota-vikings.png" alt="minnesota vikings logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 									
 							    <label class="container">49ers<img src="imgs/nfl/san-francisco-49ers.png" alt="san francisco 49ers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
-						    <button class="clearButton">Clear</button>
+						    <button class="clearButton" onclick="clearSport(this)">Clear</button>
 						
 							</div>
 						</div>
@@ -561,7 +591,7 @@ header .row{
 						    <label class="container">Wizards<img src="imgs/nba/washington-wizards.png" alt="washington wizards logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">76ers<img src="imgs/nba/philadelphia-76ers.png" alt="philadelphia 76ers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
-						    <button class="clearButton">Clear</button>
+						    <button class="clearButton" onclick="clearSport(this)">Clear</button>
 							
 						</div>
 					</div>
@@ -581,7 +611,7 @@ header .row{
 						    
 						    <label class="container">Aston Villa<img src="imgs/epl/aston-villa.png" alt="aston villa logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 						
-						    <label class="container">AFC Bournemouth<img src="imgs/epl/afc-bournemouth.png" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <label class="container">Bournemouth<img src="imgs/epl/afc-bournemouth.png" alt="bournemouth logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 						
 						    <label class="container">Brighton<img src="imgs/epl/brighton.png" alt="brighton and hove albion logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
@@ -613,14 +643,14 @@ header .row{
 					
 						    <label class="container">Southampton<img src="imgs/epl/southampton.png" alt="southampton logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
-						    <label class="container">Spurs<img src="imgs/epl/spurs.png" alt="spurs logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
+						    <label class="container">Hotspur<img src="imgs/epl/spurs.png" alt="spurs logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">Watford<img src="imgs/epl/watford.png" alt="watford logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">West Ham<img src="imgs/epl/west-ham.png" alt="west ham united logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
 					
 						    <label class="container">Wolves<img src="imgs/epl/wolves.png" alt="wolverhampton wanderers logo" width="30px" height="30px"><input type="checkbox" onclick="addTeam(this)"><span class="checkmark"></span></label>
-						    <button class="clearButton">Clear</button>
+						    <button class="clearButton" onclick="clearSport(this)">Clear</button>
 						    
 						</div>
 					</div>
