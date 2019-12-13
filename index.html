@@ -23,7 +23,7 @@
 			var iWeek = new Date(beginOfSelectedWeek.getTime());
 			var calendarHeaders = document.getElementsByClassName('dayDate');
 			for(var i = 0; i < 7; i++) {
-				iWeek.setDate(beginOfSelectedWeek.getDate() + i);
+				iWeek.setDate(iWeek.getDate() + 1);
 				calendarHeaders[i].textContent = parseInt(iWeek.getMonth()+1) + '/' + iWeek.getDate();
 			}
 		}
