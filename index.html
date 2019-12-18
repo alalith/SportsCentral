@@ -28,7 +28,6 @@
 			}
 		}
 		function runFilter() {
-			console.log(teamChoices);
 			var cards = document.getElementsByClassName('result1');
 			//console.log(document);
 			for(var i = 0; i < cards.length; i++) {
@@ -49,8 +48,8 @@
 						cards[i].style.display = 'none';
 					}
 					else {
-						console.log(beginOfSelectedWeek);
-						console.log(endOfSelectedWeek);
+						//console.log(beginOfSelectedWeek);
+						//console.log(endOfSelectedWeek);
 						cards[i].style.display = 'flex';
 					}
 				}
@@ -81,7 +80,7 @@
 		}
 		
 		function addTeam(chkTeam) {
-			console.log(chkTeam.parentElement.textContent);		
+			//console.log(chkTeam.parentElement.textContent);		
 			if(chkTeam.parentElement.textContent == "All") {
 				var checkboxes = chkTeam.parentElement.parentElement.parentElement.getElementsByTagName('INPUT');	
 				if(chkTeam.checked) {
