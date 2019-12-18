@@ -23,8 +23,8 @@
 			var iWeek = new Date(beginOfSelectedWeek.getTime());
 			var calendarHeaders = document.getElementsByClassName('dayDate');
 			for(var i = 0; i < 7; i++) {
-				iWeek.setDate(iWeek.getDate() + 1);
 				calendarHeaders[i].textContent = parseInt(iWeek.getMonth()+1) + '/' + iWeek.getDate();
+				iWeek.setDate(iWeek.getDate() + 1);
 			}
 		}
 		function runFilter() {
@@ -49,6 +49,8 @@
 						cards[i].style.display = 'none';
 					}
 					else {
+						console.log(beginOfSelectedWeek);
+						console.log(endOfSelectedWeek);
 						cards[i].style.display = 'flex';
 					}
 				}
