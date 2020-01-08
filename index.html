@@ -26,6 +26,7 @@
 				calendarHeaders[i].textContent = parseInt(iWeek.getMonth()+1) + '/' + iWeek.getDate();
 				iWeek.setDate(iWeek.getDate() + 1);
 			}
+			runFilter();
 		}
 		function runFilter() {
 			var cards = document.getElementsByClassName('result1');
@@ -58,14 +59,12 @@
 		function prevWeek() {
 			beginOfSelectedWeek.setDate(beginOfSelectedWeek.getDate() - 7);
 			endOfSelectedWeek.setDate(endOfSelectedWeek.getDate() - 7);
-			runFilter();
 			updateDateHeader();
 		}
 		
 		function nextWeek() {
 			beginOfSelectedWeek.setDate(beginOfSelectedWeek.getDate() + 7);
 			endOfSelectedWeek.setDate(endOfSelectedWeek.getDate() + 7);
-			runFilter();
 			updateDateHeader();
 		
 		}
