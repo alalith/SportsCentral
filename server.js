@@ -207,7 +207,12 @@ var latestWeek;
 			var maxWeek = parsedBody['week'];
 			processNFLScoreWeek(parsedBody);
 			for(var i = 1; i < maxWeek; i++) {
-				await request('https://feeds.nfl.com/feeds-rs/scores/2019/REG/'+i+'.json',{json: true}).then(processNFLScoreWeek, console.log);
+				if(i < 18) {
+					await request('https://feeds.nfl.com/feeds-rs/scores/2019/REG/'+i+'.json',{json: true}).then(processNFLScoreWeek, console.log);
+				}
+				else {
+					await request('https://feeds.nfl.com/feeds-rs/scores/2019/POST/'+i+'.json',{json: true}).then(processNFLScoreWeek, console.log);
+				}
 			}
 		    });//.then(() => { console.log(gameSchedule) });
 	}
